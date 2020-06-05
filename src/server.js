@@ -1,6 +1,12 @@
-const app = require('./app')
-const { PORT } = require('./config')
+ const express = require('express');
+ const app = express();
 
-app.listen(PORT, () => {
-    console.log(`Server is listening http://localhost:${PORT}`)
-})
+ const PORT = process.env.PORT || 3000;
+
+ app.get('/api/*', (req, res) => {
+   res.json({ok: true});
+ });
+
+ app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
+
+ module.exports = {app};
