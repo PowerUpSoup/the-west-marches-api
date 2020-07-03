@@ -118,7 +118,7 @@ describe('Notice Endpoints', function () {
         })
     })
 
-    describe(`PATCH /api/notices/:id`, () => {
+    describe(`PUT /api/notices/:id`, () => {
         context(`Given no notices`, () => {
             it(`responds with 404`, () => {
                 const noticeId = 123456
@@ -137,7 +137,7 @@ describe('Notice Endpoints', function () {
                     .insert(testNotices)
             })
 
-            it('responds with 204 and updates the notice', () => {
+            it('responds with 200 and updates the notice', () => {
                 const idToUpdate = 1
                 const updateNotice = {
                     message: 'updated notice message',
@@ -147,9 +147,9 @@ describe('Notice Endpoints', function () {
                     ...updateNotice
                 }
                 return supertest(app)
-                    .patch(`/api/notices/${idToUpdate}`)
+                    .put(`/api/notices/${idToUpdate}`)
                     .send(updateNotice)
-                    .expect(204)
+                    .expect(200)
                     .then(res =>
                         supertest(app)
                             .get(`/api/notices/${idToUpdate}`)
@@ -160,7 +160,7 @@ describe('Notice Endpoints', function () {
             it(`responds with 400 when no required fields supplied`, () => {
                 const idToUpdate = 1
                 return supertest(app)
-                    .patch(`/api/notices/${idToUpdate}`)
+                    .put(`/api/notices/${idToUpdate}`)
                     .send({ irrelevantField: 'foo' })
                     .expect(400, {
                         error: {
@@ -169,7 +169,7 @@ describe('Notice Endpoints', function () {
                     })
             })
 
-            it(`responds with 204 when updating only a subset of fields`, () => {
+            it(`responds with 200 when updating only a subset of fields`, () => {
                 const idToUpdate = 1
                 const updateNotice = {
                     status: 'Picked Up',
@@ -180,12 +180,12 @@ describe('Notice Endpoints', function () {
                 }
 
                 return supertest(app)
-                    .patch(`/api/notices/${idToUpdate}`)
+                    .put(`/api/notices/${idToUpdate}`)
                     .send({
                         ...updateNotice,
                         fieldToIgnore: 'should not be in GET response'
                     })
-                    .expect(204)
+                    .expect(200)
                     .then(res =>
                         supertest(app)
                             .get(`/api/notices/${idToUpdate}`)
