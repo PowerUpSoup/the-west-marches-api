@@ -146,10 +146,9 @@ noticesRouter
   .get((req, res, next) => {
     res.json(serializeNotice(res.notice))
   })
-  .patch(jsonParser, (req, res, next) => {
+  .put(jsonParser, (req, res, next) => {
     const { message, status } = req.body
     const noticeToUpdate = { message, status }
-
     const numberOfValues = Object.values(noticeToUpdate).filter(Boolean).length
     if (numberOfValues === 0)
       return res.status(400).json({
@@ -157,14 +156,14 @@ noticesRouter
           message: `Request body must contain one of: 'message', 'status'`
         }
       })
-
+    
     NoticesService.updateNotice(
       req.app.get('db'),
       req.params.notice_id,
       noticeToUpdate
     )
       .then(numRowsAffected => {
-        res.status(204).end()
+        res.json(numRowsAffected)
       })
       .catch(next)
   })

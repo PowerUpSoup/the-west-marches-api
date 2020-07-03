@@ -8,7 +8,4 @@ CREATE TABLE users (
 
 INSERT INTO users (id, username, "password", email_address, "role")
 VALUES
-    (1, 'admin', 'admin', 'powerupsoup@gmail.com', 'dungeon_master'),
-    (2, 'player1', 'player1', 'seanajackson1989@gmail.com', 'player'),
-    (3, 'player2', 'player2', 'irenemstaffordlmt@gmail.com', 'player');
-  
+    (1, 'admin', 'admin', 'powerupsoup@gmail.com', 'dungeon_master');
